@@ -71,20 +71,30 @@
       align-items: center;
       text-align: center;
       padding: 120px 20px 80px;
-      background: var(--dark);
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
+    .hero-video {
       position: absolute;
-      width: 800px; height: 800px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,169,110,0.04) 0%, transparent 65%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
       pointer-events: none;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      z-index: 1;
+    }
+
+    .hero > *:not(.hero-video):not(.hero-overlay) {
+      position: relative;
+      z-index: 2;
     }
 
     .hero .tag {
@@ -565,6 +575,10 @@
 
 <!-- HERO -->
 <div class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://www.torneipadelamatoriali.it/wp-content/uploads/2024/06/header-video-tpa.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
   <div class="tag">עונה חדשה מתחילה</div>
   <h1>ליגת <span>הפאדל</span><br/>באר שבע</h1>
   <p>מסגרת תחרותית מקצועית לשחקנים חובבים — עם דירוג אישי, דרגות, וקהילה שמחזיקה לטווח הארוך.</p>
