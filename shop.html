@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>פאדל פרסונל — מחבטים מעוצבים אישית</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0d0d0d;
+      color: #f0f0f0;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e53935;
+    }
+
+    header .logo {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    header .logo span {
+      color: #e53935;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-right: 24px;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: #e53935; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "🏓";
+      font-size: 200px;
+      position: absolute;
+      opacity: 0.05;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .hero h1 span { color: #e53935; }
+
+    .hero p {
+      font-size: 20px;
+      color: #aaa;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-primary {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 16px 48px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #c62828;
+      transform: translateY(-2px);
+    }
+
+    /* SECTION */
+    section {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title span { color: #e53935; }
+
+    /* PRODUCTS GRID */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: #1a1a2e;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #2a2a4a;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(229, 57, 53, 0.2);
+    }
+
+    .card-img {
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 90px;
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #e53935;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .card-body { padding: 20px; }
+
+    .card-body h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-body p {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: 800;
+      color: #e53935;
+    }
+
+    .price small {
+      font-size: 13px;
+      color: #666;
+      font-weight: 400;
+      display: block;
+    }
+
+    .btn-buy {
+      background: transparent;
+      border: 2px solid #e53935;
+      color: #e53935;
+      padding: 10px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-buy:hover {
+      background: #e53935;
+      color: white;
+    }
+
+    /* CUSTOMIZER */
+    .customizer {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-radius: 24px;
+      padding: 48px;
+      border: 1px solid #2a2a4a;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      color: #aaa;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: #0d0d1a;
+      border: 1px solid #2a2a4a;
+      color: #f0f0f0;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #e53935;
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .colors {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .color-opt {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.1s;
+    }
+
+    .color-opt:hover, .color-opt.active {
+      border-color: white;
+      transform: scale(1.15);
+    }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 32px 20px;
+      background: #1a1a2e;
+      border-radius: 16px;
+      border: 1px solid #2a2a4a;
+    }
+
+    .feature .icon { font-size: 40px; margin-bottom: 12px; }
+
+    .feature h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+
+    .feature p { font-size: 13px; color: #888; line-height: 1.5; }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .testimonial {
+      background: #1a1a2e;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #2a2a4a;
+    }
+
+    .testimonial .stars { color: #ffd700; margin-bottom: 12px; font-size: 18px; }
+
+    .testimonial p { color: #bbb; font-size: 14px; line-height: 1.7; margin-bottom: 16px; }
+
+    .testimonial .author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: #0f3460;
+    }
+
+    .author-name { font-weight: 700; font-size: 14px; }
+    .author-title { color: #666; font-size: 12px; }
+
+    /* FOOTER */
+    footer {
+      background: #060610;
+      text-align: center;
+      padding: 32px;
+      color: #444;
+      font-size: 14px;
+      border-top: 1px solid #1a1a2e;
+    }
+
+    footer a { color: #e53935; text-decoration: none; }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #1a1a2e;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      border: 1px solid #e53935;
+    }
+
+    .modal h2 { margin-bottom: 12px; }
+    .modal p { color: #aaa; margin-bottom: 24px; }
+
+    .modal .btn-primary { font-size: 16px; padding: 12px 36px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">פאדל<span>פרסונל</span></div>
+  <nav>
+    <a href="#products">מוצרים</a>
+    <a href="#custom">עיצוב אישי</a>
+    <a href="#about">אודות</a>
+    <a href="#contact">צור קשר</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>מחבט פאדל<br/><span>שנולד בשבילך</span></h1>
+  <p>עיצוב ייחודי לכל שחקן — השם שלך, הסגנון שלך, המשחק שלך.</p>
+  <a href="#custom" class="btn-primary">עצב עכשיו</a>
+</div>
+
+<!-- FEATURES -->
+<section>
+  <div class="section-title">למה <span>פאדל פרסונל?</span></div>
+  <div class="features">
+    <div class="feature">
+      <div class="icon">🎨</div>
+      <h4>עיצוב 100% אישי</h4>
+      <p>השם שלך, הצבעים שלך, הלוגו שלך — על המחבט שלך</p>
+    </div>
+    <div class="feature">
+      <div class="icon">⚡</div>
+      <h4>איכות פרו</h4>
+      <p>חומרים מהמובילים בעולם, טכנולוגיית carbon fiber</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🚀</div>
+      <h4>משלוח מהיר</h4>
+      <p>7-10 ימי עסקים מהזמנה עד הדלת</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🛡️</div>
+      <h4>אחריות שנה</h4>
+      <p>כל מחבט מגיע עם אחריות יצרן מלאה לשנה</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-title">הקולקציה <span>שלנו</span></div>
+  <div class="products">
+
+    <div class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #1a1a2e, #0f3460);">
+        🏓
+        <span class="badge">הנמכר ביותר</span>
+      </div>
+      <div class="card-body">
+        <h3>קלאסיק פרו</h3>
+        <p>מחבט ייחודי לשחקנים שאוהבים קלאסי עם טוויסט אישי. מסגרת carbon, ליבת foam.</p>
+        <div class="card-footer">
+          <div class="price">₪ 490<small>כולל עיצוב אישי</small></div>
+          <button class="btn-buy" onclick="openModal('קלאסיק פרו')">הזמן</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #1a0a0a, #3c0a0a);">
+        🔥
+        <span class="badge" style="background:#ff6f00">חדש</span>
+      </div>
+      <div class="card-body">
+        <h3>פיירסטורם</h3>
+        <p>לשחקנים אגרסיביים. עיצוב אש אישי עם השם שלך בצבעי אדום ושחור.</p>
+        <div class="card-footer">
+          <div class="price">₪ 590<small>כולל עיצוב אישי</small></div>
+          <button class="btn-buy" onclick="openModal('פיירסטורם')">הזמן</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #0a1a0a, #0a3c0a);">
+        💎
+      </div>
+      <div class="card-body">
+        <h3>גרין מאכינה</h3>
+        <p>לשחקן שאוהב לבלוט. ירוק ניאון, עיצוב פוטוריסטי עם טקסט מותאם אישית.</p>
+        <div class="card-footer">
+          <div class="price">₪ 540<small>כולל עיצוב אישי</small></div>
+          <button class="btn-buy" onclick="openModal('גרין מאכינה')">הזמן</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #1a1500, #3c3000);">
+        👑
+        <span class="badge" style="background:#9c27b0">VIP</span>
+      </div>
+      <div class="card-body">
+        <h3>גולד אדישן</h3>
+        <p>מהדורת יוקרה. זהב, כסף, ועיצוב פרימיום שיגרום לכולם להסתכל.</p>
+        <div class="card-footer">
+          <div class="price">₪ 790<small>כולל עיצוב אישי</small></div>
+          <button class="btn-buy" onclick="openModal('גולד אדישן')">הזמן</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #0a0a1a, #1a0a3a);">
+        ⚡
+      </div>
+      <div class="card-body">
+        <h3>דארק מטר</h3>
+        <p>שחור על שחור עם אפקט holographic. עבור מי שרוצה להיות המסתורין במגרש.</p>
+        <div class="card-footer">
+          <div class="price">₪ 620<small>כולל עיצוב אישי</small></div>
+          <button class="btn-buy" onclick="openModal('דארק מטר')">הזמן</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #001a2e, #003c5e);">
+        🌊
+      </div>
+      <div class="card-body">
+        <h3>אושן בלייד</h3>
+        <p>כחול אוקיינוס עם אפקט גלים. שם מותאם אישית עם גופן ספורטיבי.</p>
+        <div class="card-footer">
+          <div class="price">₪ 510<small>כולל עיצוב אישי</small></div>
+          <button class="btn-buy" onclick="openModal('אושן בלייד')">הזמן</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CUSTOMIZER -->
+<section id="custom" style="max-width:900px">
+  <div class="section-title">עצב את <span>המחבט שלך</span></div>
+  <div class="customizer">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>השם שלך (יופיע על המחבט)</label>
+        <input type="text" placeholder="לדוגמה: שי לביא" />
+      </div>
+      <div class="form-group">
+        <label>דגם מחבט</label>
+        <select>
+          <option>קלאסיק פרו — ₪490</option>
+          <option>פיירסטורם — ₪590</option>
+          <option>גרין מאכינה — ₪540</option>
+          <option>גולד אדישן — ₪790</option>
+          <option>דארק מטר — ₪620</option>
+          <option>אושן בלייד — ₪510</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>גופן</label>
+        <select>
+          <option>Bold Sport</option>
+          <option>Classic Serif</option>
+          <option>Street Style</option>
+          <option>Minimal Clean</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>צבע ראשי</label>
+        <div class="colors">
+          <div class="color-opt active" style="background:#e53935" title="אדום"></div>
+          <div class="color-opt" style="background:#1e88e5" title="כחול"></div>
+          <div class="color-opt" style="background:#43a047" title="ירוק"></div>
+          <div class="color-opt" style="background:#ffd600" title="צהוב"></div>
+          <div class="color-opt" style="background:#8e24aa" title="סגול"></div>
+          <div class="color-opt" style="background:#f4f4f4; border: 1px solid #444" title="לבן"></div>
+          <div class="color-opt" style="background:#212121" title="שחור"></div>
+          <div class="color-opt" style="background:linear-gradient(135deg,#ffd700,#ff8f00)" title="זהב"></div>
+        </div>
+      </div>
+      <div class="form-group" style="grid-column: span 2">
+        <label>הוראות עיצוב נוספות (אופציונלי)</label>
+        <textarea placeholder="לדוגמה: הוסף לוגו קבוצה, ציטוט מוטיבציה, תמונה..."></textarea>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <button class="btn-primary" onclick="openModal('עיצוב מותאם אישית')">שלח הזמנה</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="section-title">מה <span>הלקוחות אומרים</span></div>
+  <div class="testimonials">
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"קיבלתי את המחבט עם השם שלי בזהב. כולם במגרש שאלו איפה קניתי. פשוט מושלם!"</p>
+      <div class="author">
+        <div class="avatar">🧔</div>
+        <div>
+          <div class="author-name">דני פ.</div>
+          <div class="author-title">שחקן פאדל, תל אביב</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"הזמנתי כמתנת יום הולדת לחבר. העיצוב האישי נתן לזה ערך כפול. הגיע בדיוק בזמן!"</p>
+      <div class="author">
+        <div class="avatar">👩</div>
+        <div>
+          <div class="author-name">נועה ר.</div>
+          <div class="author-title">שחקנית אמאטורית</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"אחרי שנים עם מחבטים גנריים — סוף סוף משהו שמרגיש שלי. האיכות מדהימה."</p>
+      <div class="author">
+        <div class="avatar">🧑</div>
+        <div>
+          <div class="author-name">יניב כ.</div>
+          <div class="author-title">מאמן פאדל</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <p>📧 <a href="mailto:info@padelpersonal.co.il">info@padelpersonal.co.il</a> &nbsp;|&nbsp; 📱 050-0000000</p>
+  <p style="margin-top:12px">© 2026 פאדל פרסונל. כל הזכויות שמורות.</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div style="font-size:50px;margin-bottom:16px">✅</div>
+    <h2>ההזמנה נשלחה!</h2>
+    <p id="modal-text">נחזור אליך תוך 24 שעות לאישור ופרטי תשלום.</p>
+    <button class="btn-primary" onclick="document.getElementById('modal').classList.remove('active')">סגור</button>
+  </div>
+</div>
+
+<script>
+  // Color picker
+  document.querySelectorAll('.color-opt').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.color-opt').forEach(e => e.classList.remove('active'));
+      el.classList.add('active');
+    });
+  });
+
+  function openModal(product) {
+    document.getElementById('modal-text').textContent =
+      `קיבלנו את הבקשה עבור "${product}". נחזור אליך תוך 24 שעות!`;
+    document.getElementById('modal').classList.add('active');
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modal')) {
+      document.getElementById('modal').classList.remove('active');
+    }
+  }
+</script>
+
+</body>
+</html>
