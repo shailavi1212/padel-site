@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ליגת הפאדל — מצגת למועדון</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #e53935;
+      --dark: #0d0d1a;
+      --card: #141428;
+      --border: #2a2a4a;
+      --text: #f0f0f0;
+      --muted: #888;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; right: 0; left: 0;
+      background: rgba(13,13,26,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      height: 56px;
+    }
+
+    nav .brand { font-weight: 900; font-size: 20px; color: var(--red); margin-left: auto; }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: white; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 20px 60px;
+      background: radial-gradient(ellipse at top, #1a1a3e 0%, var(--dark) 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(229,57,53,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero .tag {
+      background: rgba(229,57,53,0.15);
+      border: 1px solid rgba(229,57,53,0.4);
+      color: var(--red);
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 80px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span { color: var(--red); }
+
+    .hero p {
+      font-size: 20px;
+      color: #aaa;
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .stat { text-align: center; }
+    .stat .num { font-size: 40px; font-weight: 900; color: var(--red); }
+    .stat .label { font-size: 13px; color: var(--muted); }
+
+    /* SECTIONS */
+    .section {
+      padding: 80px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .section-title span { color: var(--red); }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+
+    /* GOALS */
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .goal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .goal-card:hover {
+      border-color: var(--red);
+      transform: translateY(-4px);
+    }
+
+    .goal-card .icon { font-size: 36px; margin-bottom: 16px; }
+    .goal-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .goal-card p { color: var(--muted); font-size: 14px; }
+
+    /* STRUCTURE */
+    .structure-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .flow-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .flow-item .flow-icon { font-size: 32px; margin-bottom: 10px; }
+    .flow-item h4 { font-size: 16px; font-weight: 700; }
+    .flow-item p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    .flow-arrow {
+      font-size: 24px;
+      color: var(--red);
+      margin: 0 12px;
+      flex-shrink: 0;
+    }
+
+    /* LEAGUES */
+    .leagues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .league-card {
+      border-radius: 16px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .league-card.a { background: linear-gradient(135deg, #1a0a0a, #3a0808); border-color: #e53935; }
+    .league-card.b { background: linear-gradient(135deg, #0a1020, #0a2040); border-color: #1e88e5; }
+    .league-card.c { background: linear-gradient(135deg, #0a1a0a, #0a3010); border-color: #43a047; }
+    .league-card.d { background: linear-gradient(135deg, #1a1500, #2a2000); border-color: #ffa000; }
+
+    .league-letter {
+      font-size: 56px;
+      font-weight: 900;
+      opacity: 0.15;
+      position: absolute;
+      top: -10px;
+      left: 16px;
+    }
+
+    .league-card.a .league-letter { color: var(--red); }
+    .league-card.b .league-letter { color: #1e88e5; }
+    .league-card.c .league-letter { color: #43a047; }
+    .league-card.d .league-letter { color: #ffa000; }
+
+    .league-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .league-card.a .league-badge { background: rgba(229,57,53,0.2); color: #e53935; }
+    .league-card.b .league-badge { background: rgba(30,136,229,0.2); color: #42a5f5; }
+    .league-card.c .league-badge { background: rgba(67,160,71,0.2); color: #66bb6a; }
+    .league-card.d .league-badge { background: rgba(255,160,0,0.2); color: #ffca28; }
+
+    .league-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+
+    .league-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .league-card ul li {
+      font-size: 13px;
+      color: #bbb;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .league-card ul li:last-child { border-bottom: none; }
+
+    /* TOURNAMENT */
+    .tournament-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .t-col h4 {
+      font-size: 14px;
+      color: var(--red);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .t-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+    }
+
+    .t-row .val { color: white; font-weight: 600; }
+    .t-row .key { color: var(--muted); }
+
+    /* POINTS */
+    .points-podium {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .podium-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 28px;
+      text-align: center;
+      min-width: 140px;
+      transition: transform 0.2s;
+    }
+
+    .podium-item:hover { transform: translateY(-4px); }
+
+    .podium-item.first { border-color: #ffd700; }
+    .podium-item.second { border-color: #aaa; }
+    .podium-item.third { border-color: #cd7f32; }
+
+    .podium-item .pos { font-size: 28px; margin-bottom: 8px; }
+    .podium-item .pts { font-size: 36px; font-weight: 900; }
+    .podium-item.first .pts { color: #ffd700; }
+    .podium-item.second .pts { color: #aaa; }
+    .podium-item.third .pts { color: #cd7f32; }
+    .podium-item .pts-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .podium-item .place { font-size: 13px; font-weight: 600; margin-top: 8px; }
+
+    /* RULES */
+    .rules-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .rule-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .rule-num {
+      background: rgba(229,57,53,0.15);
+      color: var(--red);
+      font-weight: 900;
+      font-size: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .rule-text { font-size: 14px; color: #ccc; line-height: 1.6; }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 40px;
+    }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, #1a0a0a, #2a1010);
+      border-top: 1px solid var(--red);
+      text-align: center;
+      padding: 80px 40px;
+    }
+
+    .cta h2 { font-size: 36px; font-weight: 900; margin-bottom: 16px; }
+    .cta h2 span { color: var(--red); }
+    .cta p { color: var(--muted); font-size: 18px; margin-bottom: 40px; }
+
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, opacity 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-red { background: var(--red); color: white; }
+    .btn-outline { background: transparent; border: 2px solid var(--red); color: var(--red); }
+
+    @media (max-width: 700px) {
+      .tournament-box { grid-template-columns: 1fr; }
+      nav { padding: 0 16px; gap: 16px; }
+      .section { padding: 60px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="brand">🏓 ליגת הפאדל</span>
+  <a href="#about">אודות</a>
+  <a href="#structure">מבנה</a>
+  <a href="#leagues">דרגות</a>
+  <a href="#tournament">טורנירים</a>
+  <a href="#rules">חוקים</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">🏆 עונה חדשה מתחילה</div>
+  <h1>ליגת <span>הפאדל</span><br/>באר שבע</h1>
+  <p>מסגרת תחרותית מקצועית לשחקנים חובבים — עם דירוג אישי, דרגות, וקהילה שמחזיקה לטווח הארוך.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="num">46</div>
+      <div class="label">שחקנים פעילים</div>
+    </div>
+    <div class="stat">
+      <div class="num">4</div>
+      <div class="label">דרגות ליגה</div>
+    </div>
+    <div class="stat">
+      <div class="num">7</div>
+      <div class="label">מחזורים בעונה</div>
+    </div>
+    <div class="stat">
+      <div class="num">∞</div>
+      <div class="label">תחרותיות</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-tag">מי אנחנו</div>
+  <div class="section-title">למה <span>ליגת הפאדל?</span></div>
+  <div class="section-sub">הליגה נבנתה כדי לפתור שלוש בעיות אמיתיות שכל שחקן חובב מכיר.</div>
+
+  <div class="goals-grid">
+    <div class="goal-card">
+      <div class="icon">🎯</div>
+      <h3>מגרש + שחקנים</h3>
+      <p>אף פעם לא צריך לחפש — הליגה מארגנת מגרשים ומזווגת שחקנים לפי רמה.</p>
+    </div>
+    <div class="goal-card">
+      <div class="icon">👥</div>
+      <h3>קהילה אמיתית</h3>
+      <p>לא רק משחק — אנשים שמכירים אחד את השני, מתחרים ומתפתחים יחד.</p>
+    </div>
+    <div class="goal-card">
+      <div class="icon">🚀</div>
+      <h3>משמעות ומסגרת</h3>
+      <p>דירוג אישי, דרגות, עלייה וירידה — תחושה שכל משחק חשוב.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STRUCTURE -->
+<section class="section" id="structure">
+  <div class="section-tag">מבנה הליגה</div>
+  <div class="section-title">איך <span>הכל מחובר?</span></div>
+  <div class="section-sub">שלושה שלבים שבונים עונה שלמה.</div>
+
+  <div class="structure-flow">
+    <div class="flow-item">
+      <div class="flow-icon">🌅</div>
+      <h4>טורנירי קדם עונה</h4>
+      <p>בניית דירוג ראשוני</p>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-item">
+      <div class="flow-icon">⚔️</div>
+      <h4>שלב הליגה</h4>
+      <p>4 דרגות × מחזורים</p>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-item">
+      <div class="flow-icon">🏆</div>
+      <h4>פלייאוף</h4>
+      <p>הכרעה סופית</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LEAGUES -->
+<section class="section" id="leagues">
+  <div class="section-tag">דרגות</div>
+  <div class="section-title">4 דרגות — <span>לכל שחקן הבית שלו</span></div>
+  <div class="section-sub">כל זוג מסווג לדרגה המתאימה לפי נקודות הדירוג שלו.</div>
+
+  <div class="leagues-grid">
+    <div class="league-card a">
+      <div class="league-letter">A</div>
+      <span class="league-badge">דרגה A</span>
+      <h3>האליטה</h3>
+      <ul>
+        <li>ליגה אחת</li>
+        <li>7 זוגות</li>
+        <li>ימי שישי בבוקר</li>
+        <li>הניקוד הגבוה ביותר</li>
+      </ul>
+    </div>
+
+    <div class="league-card b">
+      <div class="league-letter">B</div>
+      <span class="league-badge">דרגה B</span>
+      <h3>מתקדמים</h3>
+      <ul>
+        <li>2 ליגות</li>
+        <li>6 זוגות כל אחת</li>
+        <li>ימים קבועים מראש</li>
+        <li>ניקוד גבוה</li>
+      </ul>
+    </div>
+
+    <div class="league-card c">
+      <div class="league-letter">C</div>
+      <span class="league-badge">דרגה C</span>
+      <h3>בינוניים</h3>
+      <ul>
+        <li>4 ליגות</li>
+        <li>6 זוגות כל אחת</li>
+        <li>גמישות בזמנים</li>
+        <li>שבוע לכל משחק</li>
+      </ul>
+    </div>
+
+    <div class="league-card d">
+      <div class="league-letter">D</div>
+      <span class="league-badge">דרגה D</span>
+      <h3>מתחילים</h3>
+      <ul>
+        <li>ליגות פתוחות</li>
+        <li>6-7 זוגות</li>
+        <li>כניסה ללא סף</li>
+        <li>פתח לעלייה</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RANKING -->
+<section class="section" id="tournament">
+  <div class="section-tag">מערכת הדירוג</div>
+  <div class="section-title">נקודות <span>שבונות את ההיסטוריה שלך</span></div>
+  <div class="section-sub">כל תוצאה נספרת. הדירוג קובע לאיזה דרגה תשתייך בעונה הבאה.</div>
+
+  <div class="points-podium" style="margin-bottom: 60px">
+    <div class="podium-item second">
+      <div class="pos">🥈</div>
+      <div class="pts">15</div>
+      <div class="pts-label">נקודות</div>
+      <div class="place">מקום 2</div>
+    </div>
+    <div class="podium-item first">
+      <div class="pos">🥇</div>
+      <div class="pts">30</div>
+      <div class="pts-label">נקודות</div>
+      <div class="place">מקום 1</div>
+    </div>
+    <div class="podium-item third">
+      <div class="pos">🏅</div>
+      <div class="pts">7</div>
+      <div class="pts-label">נקודות</div>
+      <div class="place">סגני בתים</div>
+    </div>
+  </div>
+
+  <!-- TOURNAMENT FORMAT -->
+  <div class="section-tag">פורמט טורניר קדם עונה</div>
+  <div class="section-title" style="margin-bottom: 32px">טורניר <span>יומי</span></div>
+
+  <div class="tournament-box">
+    <div class="t-col">
+      <h4>פרטי הטורניר</h4>
+      <div class="t-row"><span class="key">משתתפים</span><span class="val">6 זוגות</span></div>
+      <div class="t-row"><span class="key">חלוקה</span><span class="val">2 בתים × 3 זוגות</span></div>
+      <div class="t-row"><span class="key">גמר</span><span class="val">ראשוני כל בית</span></div>
+      <div class="t-row"><span class="key">פורמט</span><span class="val">הטוב מ-3 (2-2+טייבריק)</span></div>
+      <div class="t-row"><span class="key">סה"כ משחקים</span><span class="val">7 משחקים</span></div>
+      <div class="t-row"><span class="key">זמן למשחק</span><span class="val">עד 50 דקות</span></div>
+    </div>
+    <div class="t-col">
+      <h4>לוגיסטיקה</h4>
+      <div class="t-row"><span class="key">מגרשים נדרשים</span><span class="val">2 מגרשים</span></div>
+      <div class="t-row"><span class="key">מגרש 1</span><span class="val">3 משחקים / 2.5 שעות</span></div>
+      <div class="t-row"><span class="key">מגרש 2</span><span class="val">4 משחקים / 3.5 שעות</span></div>
+      <div class="t-row"><span class="key">סה"כ שעות מגרש</span><span class="val">6 שעות</span></div>
+      <div class="t-row"><span class="key">ציוד</span><span class="val">2 קופסאות כדורים חדשות</span></div>
+      <div class="t-row"><span class="key">פרסים</span><span class="val">נקודות דירוג בלבד</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RULES -->
+<section class="section" id="rules">
+  <div class="section-tag">חוקי הליגה</div>
+  <div class="section-title">שקיפות <span>מלאה</span></div>
+  <div class="section-sub">כללים ברורים = ליגה שעובדת.</div>
+
+  <div class="rules-list">
+    <div class="rule-item">
+      <div class="rule-num">1</div>
+      <div class="rule-text"><strong>טופס אילוצים</strong> — לפני תחילת הליגה כל זוג ממלא טופס זמנים. לפיו ייקבעו משחקי הליגה.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">2</div>
+      <div class="rule-text"><strong>דחיות</strong> — כל זוג רשאי לדחות עד 2 פעמים בעונה.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">3</div>
+      <div class="rule-text"><strong>ניגוד זמנים</strong> — הזוג עם פחות שעות פנויות מתאים את עצמו לזוג השני.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">4</div>
+      <div class="rule-text"><strong>הפסד טכני</strong> — אי-הגעה ללא התאמה תגרור הפסד טכני.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">5</div>
+      <div class="rule-text"><strong>שריון מגרש</strong> — מתבצע דרך המועדון, לפחות שבועיים מראש.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">6</div>
+      <div class="rule-text"><strong>עלייה וירידה</strong> — 2 זוגות עולים מכל ליגה בסיום העונה.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>מוכנים <span>להצטרף?</span></h2>
+  <p>הליגה פתוחה לכל רמה — מתחילים ועד אליטה. הדרגה תקבע לפי הדירוג שלכם.</p>
+  <div class="cta-buttons">
+    <a href="#about" class="btn btn-red">הרשמה לליגה</a>
+    <a href="#structure" class="btn btn-outline">עוד פרטים</a>
+  </div>
+</div>
+
+</body>
+</html>
