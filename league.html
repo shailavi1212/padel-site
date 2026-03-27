@@ -128,6 +128,67 @@
       margin-bottom: 12px;
     }
 
+    /* SCORING TABLE */
+    .scoring-section { margin-top: 48px; }
+
+    .threshold-banner {
+      background: linear-gradient(135deg, rgba(229,57,53,0.1), rgba(229,57,53,0.05));
+      border: 1px solid rgba(229,57,53,0.4);
+      border-radius: 14px;
+      padding: 20px 28px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .threshold-banner .icon { font-size: 28px; }
+    .threshold-banner strong { color: white; font-size: 16px; }
+    .threshold-banner span { color: #aaa; font-size: 14px; }
+
+    .scoring-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .score-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .score-card-header {
+      padding: 14px 20px;
+      font-weight: 800;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .score-card.pre .score-card-header  { background: rgba(100,100,100,0.3); color: #ccc; }
+    .score-card.a   .score-card-header  { background: rgba(229,57,53,0.25); color: #e53935; }
+    .score-card.b   .score-card-header  { background: rgba(30,136,229,0.25); color: #42a5f5; }
+    .score-card.c   .score-card-header  { background: rgba(67,160,71,0.25); color: #66bb6a; }
+    .score-card.d   .score-card-header  { background: rgba(255,160,0,0.2); color: #ffca28; }
+    .score-card.final .score-card-header { background: rgba(156,39,176,0.25); color: #ce93d8; }
+
+    .score-card-body { background: var(--card); padding: 12px 0; }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 20px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .score-row:last-child { border-bottom: none; }
+    .score-row .place { color: #aaa; }
+    .score-row .pts { font-weight: 700; color: white; }
+
     .section-title {
       font-size: clamp(28px, 4vw, 40px);
       font-weight: 900;
@@ -503,7 +564,7 @@
 <!-- LEAGUES -->
 <section class="section" id="leagues">
   <div class="section-tag">דרגות</div>
-  <div class="section-title">4 דרגות — <span>לכל שחקן הבית שלו</span></div>
+  <div class="section-title">3 דרגות + D — <span>לכל שחקן הבית שלו</span></div>
   <div class="section-sub">כל זוג מסווג לדרגה המתאימה לפי נקודות הדירוג שלו.</div>
 
   <div class="leagues-grid">
@@ -563,28 +624,105 @@
 <section class="section" id="tournament">
   <div class="section-tag">מערכת הדירוג</div>
   <div class="section-title">נקודות <span>שבונות את ההיסטוריה שלך</span></div>
-  <div class="section-sub">כל תוצאה נספרת. הדירוג קובע לאיזה דרגה תשתייך בעונה הבאה.</div>
+  <div class="section-sub">שני אפיקים לצבירת נקודות — קדם עונה וליגה. הדירוג קובע את הדרגה שלך בעונה הבאה.</div>
 
-  <div class="points-podium" style="margin-bottom: 60px">
-    <div class="podium-item second">
-      <div class="pos">🥈</div>
-      <div class="pts">15</div>
-      <div class="pts-label">נקודות</div>
-      <div class="place">מקום 2</div>
+  <div class="scoring-section">
+    <div class="threshold-banner">
+      <span class="icon">🎯</span>
+      <div>
+        <strong>סף כניסה לדרגה B: 90 נקודות</strong><br/>
+        <span>= זכייה ב-3 טורנירי קדם עונה. כל מי שסיים בדרגה A מובטח לו B (מינימום 100 נק').</span>
+      </div>
     </div>
-    <div class="podium-item first">
-      <div class="pos">🥇</div>
-      <div class="pts">30</div>
-      <div class="pts-label">נקודות</div>
-      <div class="place">מקום 1</div>
-    </div>
-    <div class="podium-item third">
-      <div class="pos">🏅</div>
-      <div class="pts">7</div>
-      <div class="pts-label">נקודות</div>
-      <div class="place">סגני בתים</div>
+
+    <div class="scoring-grid">
+
+      <div class="score-card pre">
+        <div class="score-card-header">
+          <span>🌅 קדם עונה</span>
+          <span style="font-size:11px;opacity:0.7">טורניר יומי</span>
+        </div>
+        <div class="score-card-body">
+          <div class="score-row"><span class="place">🥇 מקום 1</span><span class="pts">30 נק'</span></div>
+          <div class="score-row"><span class="place">🥈 מקום 2</span><span class="pts">15 נק'</span></div>
+          <div class="score-row"><span class="place">🏅 סגן בית</span><span class="pts">7 נק'</span></div>
+        </div>
+      </div>
+
+      <div class="score-card a">
+        <div class="score-card-header">
+          <span>🔴 ליגה A</span>
+          <span style="font-size:11px">1 ליגה</span>
+        </div>
+        <div class="score-card-body">
+          <div class="score-row"><span class="place">מקום 1</span><span class="pts">500</span></div>
+          <div class="score-row"><span class="place">מקום 2</span><span class="pts">380</span></div>
+          <div class="score-row"><span class="place">מקום 3</span><span class="pts">280</span></div>
+          <div class="score-row"><span class="place">מקום 4</span><span class="pts">200</span></div>
+          <div class="score-row"><span class="place">מקום 5</span><span class="pts">150</span></div>
+          <div class="score-row"><span class="place">מקום 6</span><span class="pts">110</span></div>
+          <div class="score-row"><span class="place">מקום 7</span><span class="pts">100</span></div>
+        </div>
+      </div>
+
+      <div class="score-card b">
+        <div class="score-card-header">
+          <span>🔵 ליגה B</span>
+          <span style="font-size:11px">2 ליגות</span>
+        </div>
+        <div class="score-card-body">
+          <div class="score-row"><span class="place">מקום 1</span><span class="pts">250</span></div>
+          <div class="score-row"><span class="place">מקום 2</span><span class="pts">180</span></div>
+          <div class="score-row"><span class="place">מקום 3</span><span class="pts">120</span></div>
+          <div class="score-row"><span class="place">מקום 4</span><span class="pts">80</span></div>
+          <div class="score-row"><span class="place">מקום 5</span><span class="pts">50</span></div>
+          <div class="score-row"><span class="place">מקום 6</span><span class="pts">25</span></div>
+        </div>
+      </div>
+
+      <div class="score-card c">
+        <div class="score-card-header">
+          <span>🟢 ליגה C</span>
+          <span style="font-size:11px">2-4 ליגות</span>
+        </div>
+        <div class="score-card-body">
+          <div class="score-row"><span class="place">מקום 1</span><span class="pts">120</span></div>
+          <div class="score-row"><span class="place">מקום 2</span><span class="pts">80</span></div>
+          <div class="score-row"><span class="place">מקום 3</span><span class="pts">50</span></div>
+          <div class="score-row"><span class="place">מקום 4</span><span class="pts">30</span></div>
+          <div class="score-row"><span class="place">מקום 5</span><span class="pts">15</span></div>
+          <div class="score-row"><span class="place">מקום 6</span><span class="pts">5</span></div>
+        </div>
+      </div>
+
+      <div class="score-card d">
+        <div class="score-card-header">
+          <span>🟡 ליגה D</span>
+          <span style="font-size:11px">פתוח</span>
+        </div>
+        <div class="score-card-body">
+          <div class="score-row"><span class="place">מקום 1</span><span class="pts">50</span></div>
+          <div class="score-row"><span class="place">מקום 2</span><span class="pts">25</span></div>
+          <div class="score-row"><span class="place" style="color:#555">שאר המקומות</span><span class="pts" style="color:#555">—</span></div>
+        </div>
+      </div>
+
+      <div class="score-card final">
+        <div class="score-card-header">
+          <span>🏆 פיינל פור</span>
+          <span style="font-size:11px">בונוס</span>
+        </div>
+        <div class="score-card-body">
+          <div class="score-row"><span class="place">אלוף</span><span class="pts">+150</span></div>
+          <div class="score-row"><span class="place">גמר (הפסד)</span><span class="pts">+80</span></div>
+          <div class="score-row"><span class="place">חצי גמר</span><span class="pts">+40</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <div style="height:60px"></div>
 
   <!-- TOURNAMENT FORMAT -->
   <div class="section-tag">פורמט טורניר קדם עונה</div>
